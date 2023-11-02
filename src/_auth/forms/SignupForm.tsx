@@ -3,7 +3,6 @@ import { useForm } from "react-hook-form";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -15,10 +14,18 @@ import { SignupValidation } from "@/lib/validation";
 import { z } from "zod";
 import Loader from "@/components/shared/Loader";
 import { Link } from "react-router-dom";
+import { useToast } from "@/components/ui/use-toast";
+import {
+  useCreateUserAccount,
+  useSignInAccount,
+} from "@/lib/react-query/queriesAndMutations";
 
 const SignupForm = () => {
-
-  const isLoading = false;
+  const { toast } = useToast();
+  const { mutateAsync: createUserAccount, isLoading: isCreatingUserAccount } =
+    useCreateUserAccount();
+  const { mutateAsync: signInAccount, isLoading: isSigningIn } =
+    useSignInAccount();
 
   // 1. Define your form.
   const form = useForm<z.infer<typeof SignupValidation>>({
@@ -33,9 +40,26 @@ const SignupForm = () => {
 
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof SignupValidation>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+    const newUser = await createUserAccount(values);
+    if (!newUser) {
+      return toast({
+        title: "Sign up failed. Please try again",
+      });
+    }
+
+    const session = await signInAccount({
+      email: values.email,
+      password: values.password,
+    });
+
+    if (!session) {
+      return toast({
+        title: "Sign in failed. Please try again",
+      });
+    }
+
+
+
   }
 
   return (
@@ -49,7 +73,10 @@ const SignupForm = () => {
           To use connect, enter your details
         </p>
 
-        <form onSubmit={form.handleSubmit(onSubmit)} className=" flex flex-col gap-5 w-full mt-4">
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className=" flex flex-col gap-5 w-full mt-4"
+        >
           <FormField
             control={form.control}
             name="name"
@@ -57,7 +84,7 @@ const SignupForm = () => {
               <FormItem>
                 <FormLabel>Name</FormLabel>
                 <FormControl>
-                  <Input type="text" className="shad-input"  {...field} />
+                  <Input type="text" className="shad-input" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -70,7 +97,7 @@ const SignupForm = () => {
               <FormItem>
                 <FormLabel>Username</FormLabel>
                 <FormControl>
-                  <Input type="text" className="shad-input"  {...field} />
+                  <Input type="text" className="shad-input" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -83,7 +110,7 @@ const SignupForm = () => {
               <FormItem>
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input type="email" className="shad-input"  {...field} />
+                  <Input type="email" className="shad-input" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -96,19 +123,23 @@ const SignupForm = () => {
               <FormItem>
                 <FormLabel>Password</FormLabel>
                 <FormControl>
-                  <Input type="password" className="shad-input"  {...field} />
+                  <Input type="password" className="shad-input" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-          <Button type="submit" className="shad-button_primary">{
-            isLoading?(
-              <Loader/>
-            ):"Sign up"
-          }</Button>
+          <Button type="submit" className="shad-button_primary">
+            {isCreatingUserAccount ? <Loader /> : "Sign up"}
+          </Button>
           <p className="text-sm-regular text-light-2 text-center mt-2">
-            Already have an account ? <Link className="text-primary-500 text-small-semibold ml-1" to="/sign-in">Log in</Link>
+            Already have an account ?{" "}
+            <Link
+              className="text-primary-500 text-small-semibold ml-1"
+              to="/sign-in"
+            >
+              Log in
+            </Link>
           </p>
         </form>
       </div>
@@ -117,3 +148,7 @@ const SignupForm = () => {
 };
 
 export default SignupForm;
+
+
+
+
