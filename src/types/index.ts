@@ -5,7 +5,9 @@ export type INavLink = {
 };
 
 export type IContextType ={
+  id:string,
   user:IUser,
+  imageUrl:string,
   isLoading:boolean,
   setUser:React.Dispatch<React.SetStateAction<IUser>>;
   isAuthenticated:boolean;
