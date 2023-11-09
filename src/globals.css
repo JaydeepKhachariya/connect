@@ -197,7 +197,7 @@
 
   /* File uploader */
   .file_uploader-img {
-    @apply h-80 lg: h-[480px] w-full rounded-[24px] object-cover object-top;
+    @apply h-80 w-full rounded-[24px] object-cover object-top;
   }
 
   .file_uploader-label {
@@ -205,7 +205,7 @@
   }
 
   .file_uploader-box {
-    @apply flex-center flex-col p-7 h-80 lg: h-[612px];
+    @apply flex-center flex-col p-7 h-80;
   }
 
   /* Grid Post List */
@@ -230,10 +230,9 @@
     @apply rounded-lg base-medium transition;
   }
 
-  .leftsidebar-link:hover{
-    @apply bg-primary-500
+  .leftsidebar-link:hover {
+    @apply bg-primary-500;
   }
-
 
   /* Post Card */
   .post-card {
@@ -246,8 +245,8 @@
 
   /* Topbar */
   .topbar {
-      @apply sticky top-0 z-50 bg-dark-2 w-full;
-}
+    @apply sticky top-0 z-50 bg-dark-2 w-full;
+  }
 
   /* User card */
   .user-card {
@@ -275,7 +274,11 @@
   }
 
   .shad-textarea {
-    @apply h-36 bg-dark-3 rounded-xl border-none focus-visible: ring-1 focus-visible:ring-offset-1 ring-offset-light-3 !important;
+    @apply h-36 bg-dark-3 rounded-xl border-none  ring-offset-light-3 !important;
+  }
+
+  .shad-textarea:focus-visible {
+    @apply ring-1 ring-offset-1;
   }
 
   /* Button */
@@ -283,8 +286,8 @@
     @apply bg-primary-500  text-light-1 flex gap-2 !important;
   }
 
-  .shad-button_primary:hover{
-    @apply bg-primary-500
+  .shad-button_primary:hover {
+    @apply bg-primary-500;
   }
 
   .shad-button_dark_4 {
@@ -295,26 +298,40 @@
     @apply flex gap-4 items-center justify-start !important;
   }
 
-  .shad-button_ghost:hover{
-    @apply bg-transparent text-white
+  .shad-button_ghost:hover {
+    @apply bg-transparent text-white;
+  }
+}
+
+@media (min-width: 768px) {
+  .topbar {
+    @apply hidden;
+  }
+
+  .leftsidebar {
+    @apply flex;
+  }
+
+  .bottom-bar {
+    @apply hidden;
+  }
+
+  .common-container {
+    @apply px-8;
+  }
+
+  .home-container {
+    @apply flex flex-col flex-1 items-center gap-10 overflow-scroll py-10 px-5 md: px-8 lg:p-14 custom-scrollbar;
   }
 
 }
 
-@media (min-width:768px) {
-  .topbar {
-    @apply hidden
+@media (min-width: 1024px) {
+  .file_uploader-box {
+    @apply h-[612px];
   }
 
-  .leftsidebar {
-    @apply flex
-  }
-
-  .bottom-bar{
-    @apply hidden
-  }
-
-  .common-container{
-    @apply  px-8
+  .file_uploader-img {
+    @apply h-[480px];
   }
 }
