@@ -61,9 +61,6 @@ const SigninForm = () => {
         title: "Sign up failed. Please try again",
       });
     }
-
-
-
   }
 
   return (
