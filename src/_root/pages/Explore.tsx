@@ -26,6 +26,8 @@ const Explore = () => {
   const shouldShowPosts =
     !shouldShowSearchResults &&
     posts.pages.every((item) => item?.documents.length === 0);
+  
+  console.log(hasNextPage);
 
   return (
     <div className="explore-container">
