@@ -1,7 +1,6 @@
 import { INewPost, INewUser, IUpdatePost } from "@/types";
 import { ID, Query } from "appwrite";
 import { account, appwriteConfig, avatars, databases, storage } from "./config";
-import { any } from "zod";
 
 export async function createUserAccount(user: INewUser) {
   try {
@@ -323,25 +322,24 @@ if(!postId || !imageId){
 }
 }
 
-export async function getInfinitePosts({pageParam}:{pageParam:number}) {
-  const queries : any[] =[Query.orderDesc("$updatedAt"),Query.limit(10)];
-if(pageParam){
+export async function getInfinitePosts({ pageParam }: { pageParam: number }) {
+  const queries: any[] = [Query.orderDesc("$updatedAt"), Query.limit(10)];
+  if (pageParam) {
+    queries.push(Query.cursorAfter(pageParam.toString()));
+  }
 
-  queries.push(Query.cursorAfter(pageParam.toString()));
-}
+  try {
+    const posts = await databases.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.postCollectionId,
+      queries
+    );
 
-try {
-  const posts = await databases.listDocuments(
-    appwriteConfig.databaseId,
-    appwriteConfig.postCollectionId,
-    queries
-  )
-
-  if(!posts) throw Error;
-  return posts
-} catch (error) {
-  console.log(error)
-}
+    if (!posts) throw Error;
+    return posts;
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 export async function searchPosts(searchTerm:string) {

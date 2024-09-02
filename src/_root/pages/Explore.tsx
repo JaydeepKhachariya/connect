@@ -25,7 +25,7 @@ const Explore = () => {
   const shouldShowSearchResults = searchValue !== "";
   const shouldShowPosts =
     !shouldShowSearchResults &&
-    posts.pages.every((item) => item.documents.length === 0);
+    posts.pages.every((item) => item?.documents.length === 0);
 
   return (
     <div className="explore-container">
@@ -64,7 +64,7 @@ const Explore = () => {
       <div className="flex flex-wrap gap-9 max-w-5xl">
         {
           shouldShowSearchResults ? (<SearchResults isSearchFetching={isSearchFetching} searchdPosts={searchdPosts}  />) : shouldShowPosts?(<p className="text-light-4 mt-10 text-center w-full">End of posts</p>):posts.pages.map((item,index)=>(
-            <GridPostList key={`page-${index}`} posts={item.documents} />
+            <GridPostList key={`page-${index}`} posts={item?.documents} />
           ))
         }
       </div>
