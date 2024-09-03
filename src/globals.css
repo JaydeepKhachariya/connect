@@ -471,3 +471,8 @@
     @apply flex;
   }
 }
+
+
+.logo-text-color{
+  @apply bg-gradient-to-b from-[#877EFF] via-[#685DFF] to-[#3121FF] bg-clip-text text-transparent
+}

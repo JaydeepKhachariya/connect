@@ -22,12 +22,7 @@ const LeftSidebar = () => {
     <nav className="leftsidebar">
       <div className="flex flex-col gap-11">
         <Link to="/" className="flex gap-3 items-center">
-          <img
-            src="/assets/images/logo.svg"
-            alt="logo"
-            width={170}
-            height={36}
-          />
+          <h1 className="text-[30px] font-bold logo-text-color">Netwrrk</h1>
         </Link>
         <Link to={`/profile/${user.id}`} className="flex gap-3 items-center">
           <img
@@ -44,7 +39,12 @@ const LeftSidebar = () => {
           {sidebarLinks.map((link: INavLink) => {
             const isActive = pathname === link.route;
             return (
-              <li className={`leftsidebar-link group ${isActive && 'bg-primary-500' }`} key={link.label}>
+              <li
+                className={`leftsidebar-link group ${
+                  isActive && "bg-primary-500"
+                }`}
+                key={link.label}
+              >
                 <NavLink
                   className={`flex gap-4 items-center p-4`}
                   to={link.route}
@@ -52,7 +52,9 @@ const LeftSidebar = () => {
                   <img
                     src={link.imgURL}
                     alt={link.label}
-                    className={`group-hover:invert-white ${isActive && "invert-white"}`}
+                    className={`group-hover:invert-white ${
+                      isActive && "invert-white"
+                    }`}
                   />
                   {link.label}
                 </NavLink>
@@ -61,14 +63,14 @@ const LeftSidebar = () => {
           })}
         </ul>
       </div>
-        <Button
-            variant="ghost"
-            className="shad-button_ghost"
-            onClick={() => signOut()}
-          >
-            <img src="/assets/icons/logout.svg" alt="logout" />
-            <p className="small-medium lg:base-medium">Logout</p>
-          </Button>
+      <Button
+        variant="ghost"
+        className="shad-button_ghost"
+        onClick={() => signOut()}
+      >
+        <img src="/assets/icons/logout.svg" alt="logout" />
+        <p className="small-medium lg:base-medium">Logout</p>
+      </Button>
     </nav>
   );
 };
